@@ -47,7 +47,7 @@ sub SendMessage {
 			'<Gsm>'.
 			'       <Cmd>SMS</Cmd>'.
 			'       <Nmr>%s</Nmr>'.
-			'       <Text>%s</Text>'.
+			'       <Text>%.160s</Text>'.
 			'</Gsm>'.
 			'</pos:QueueAdd>'.
 			'</soapenv:Body>'.
@@ -57,10 +57,8 @@ sub SendMessage {
 
 	my $authorization_header = sprintf("Basic %s", 
 				encode_base64($Gateway_Username . ":" . $Gateway_Password));
-#RT::Logger->debug("SMS notification to ". Data::Dumper->Dump($args{Recipients}));
 
     foreach my $phone_number ( $args{Recipients} ) {
-#RT::Logger->debug("SMS notification to ". $$phone_number[0], ref($phone_number));
 		my ($data, $queue_id);
 		my $xml = sprintf($SMS_XML, $$phone_number[0],  $args{Msg});
 		$ua->agent("sendSMSgwalert/1.0 " . $ua->agent);
@@ -82,7 +80,7 @@ sub SendMessage {
 		} else {
 				$queue_id = 'UNKNOWN';
 		}
-		RT::Logger->debug(sprintf("SMS Message sent with ID %s to '%s'\n", $queue_id, $phone_number));
+		RT::Logger->debug(sprintf("SMS Message sent with ID %s to '%s'\n", $queue_id, $$phone_number[0]));
 		# sleep for 1 sec, not to overflood gateway
 		sleep 2;
 		
