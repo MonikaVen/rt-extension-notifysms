@@ -12,10 +12,13 @@ DESCRIPTION
     where the action module is one of the notify option from this extension:
 
         "NotifyTwilio"
-
+		"NotifySMSgw"
+	
     For the action you can choose to pass the following parameters:
 
         All, Owner, Requestor, AdminCc, Cc
+
+	NotifySMSgw implements netGSM protocol from HW-Group https://www.hw-group.com/product-version/netgsm
 
 RT VERSION
     Works with RT 4.4.0
@@ -36,12 +39,18 @@ INSTALLATION
         If you are using RT 4.4 or greater, add this line:
 
             Plugin('RT::Extension::NotifySMS');
+			
+	For the SMS Gw notifications add configuration options 
+	Set($SMSgwAPIURL,  qw(http://10.1.2.3/service.xml) );
+	Set($SMSgwAccount, qw/username/);
+	Set($SMSgwPaswd, qw/passwd/);
 
         You will also need to set other config values depending on which sms
         action is being used, see the module for specifications.
 
     Clear your mason cache
             rm -rf /opt/rt4/var/mason_data/obj
+			
 
     Restart your webserver
 

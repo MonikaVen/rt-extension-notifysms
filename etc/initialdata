@@ -5,4 +5,10 @@ push @ScripActions, (
         ExecModule  => 'NotifyTwilio',
         Argument    => 'All',
     },
+    {
+        Name        => 'Notify SMSgw',
+        Description => 'Send SMS messages using SMS GW API',
+        ExecModule  => 'NotifySMSgw',
+        Argument    => 'All',
+    },
 );
