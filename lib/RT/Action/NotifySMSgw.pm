@@ -58,9 +58,10 @@ sub SendMessage {
 	my $authorization_header = sprintf("Basic %s", 
 				encode_base64($Gateway_Username . ":" . $Gateway_Password));
 
-    foreach my $phone_number ( $args{Recipients} ) {
+	
+    foreach my $phone_number ( @{$args{Recipients}} ) {
 		my ($data, $queue_id);
-		my $xml = sprintf($SMS_XML, $$phone_number[0],  $args{Msg});
+		my $xml = sprintf($SMS_XML, $phone_number,  $args{Msg});
 		$ua->agent("sendSMSgwalert/1.0 " . $ua->agent);
 		# set timeout for sms gw connection
 		$ua->timeout (3);
@@ -80,7 +81,7 @@ sub SendMessage {
 		} else {
 				$queue_id = 'UNKNOWN';
 		}
-		RT::Logger->debug(sprintf("SMS Message sent with ID %s to '%s'\n", $queue_id, $$phone_number[0]));
+		RT::Logger->debug(sprintf("SMS Message sent with ID %s to '%s'\n", $queue_id, $phone_number));
 		# sleep for 1 sec, not to overflood gateway
 		sleep 2;
 		

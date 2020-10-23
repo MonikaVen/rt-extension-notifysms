@@ -168,7 +168,7 @@ sub SetRecipients {
     foreach my $role (@To) {
         while (my $user = $role->Next) {
             push @recipients, $user->MobilePhone
-                unless !$user->MobilePhone;
+                unless !$user->MobilePhone || grep {$user->MobilePhone eq $_} @recipients;
         }
     }
     return 0 unless scalar @recipients;
